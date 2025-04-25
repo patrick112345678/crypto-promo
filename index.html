@@ -105,7 +105,7 @@
 <aside>
   <h1>日記</h1>
   <a onclick="showSection('exchange')" title="交易所推薦">📌</a>
-  <a onclick="showSection('records')" title="新增交易紀錄">📝</a>
+  <a onclick="toggleLogin()" title="新增交易紀錄">📝</a>
   <a onclick="showSection('viewrecords')" title="查看紀錄">📂</a>
 </aside>
 
@@ -128,6 +128,13 @@
       <li><strong>波浪理論（Elliott Wave Theory）</strong>：AB=CD 結構與三浪主升應用。</li>
       <li><strong>形態學（Price Action Study）</strong>：三角收斂、W 頭、假突破、突破回踩與心態解讀。</li>
     </ul>
+  </section>
+
+  <section id="login" style="display:none">
+    <h2>登入以新增交易紀錄</h2>
+    <input type="text" id="loginUser" placeholder="帳號">
+    <input type="password" id="loginPass" placeholder="密碼">
+    <button onclick="login()">登入</button>
   </section>
 
   <section id="records">
@@ -156,12 +163,37 @@
 <script>
   const form = document.getElementById('tradeForm');
   const recordsDiv = document.getElementById('recordsList');
+  const recordsSection = document.getElementById('records');
+  const loginSection = document.getElementById('login');
+
+  let isLoggedIn = false;
 
   function showSection(id) {
-    ['exchange', 'records', 'viewrecords'].forEach(sec => {
-      document.getElementById(sec).style.display = 'none';
+    ['exchange', 'records', 'viewrecords', 'login'].forEach(sec => {
+      const el = document.getElementById(sec);
+      if (el) el.style.display = 'none';
     });
-    document.getElementById(id).style.display = 'block';
+    const target = document.getElementById(id);
+    if (target) target.style.display = 'block';
+  }
+
+  function toggleLogin() {
+    if (!isLoggedIn) {
+      showSection('login');
+    } else {
+      showSection('records');
+    }
+  }
+
+  function login() {
+    const user = document.getElementById('loginUser').value;
+    const pass = document.getElementById('loginPass').value;
+    if (user === 'admin' && pass === 'lin1123') {
+      isLoggedIn = true;
+      showSection('records');
+    } else {
+      alert('登入失敗，請確認帳號密碼');
+    }
   }
 
   form.addEventListener('submit', (e) => {
