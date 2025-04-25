@@ -19,9 +19,9 @@
       padding: 20px 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
       transition: width 0.3s ease-in-out;
       position: relative;
+      z-index: 2;
     }
     .sidebar.collapsed {
       width: 60px;
@@ -33,8 +33,8 @@
       color: #fff;
       font-size: 22px;
       margin-bottom: 20px;
-      align-self: flex-start;
       padding-left: 20px;
+      text-align: left;
     }
     .nav-link {
       color: #f3f4f6;
@@ -59,6 +59,7 @@
       padding: 30px;
       margin-left: 220px;
       transition: margin-left 0.3s ease-in-out;
+      z-index: 1;
     }
     .sidebar.collapsed + .main {
       margin-left: 60px;
@@ -112,150 +113,14 @@
     </div>
   </div>
 
-  <div class="main">
-    <div id="record" class="section">
-      <h2>新增交易紀錄（登入後可見）</h2>
-      <form id="recordForm">
-        <input type="text" placeholder="交易品種" required>
-        <input type="text" placeholder="策略" required>
-        <textarea placeholder="心得..." required></textarea>
-        <input type="file" accept="image/*,video/*">
-        <button type="submit">送出</button>
-      </form>
-    </div>
-
-    <div id="records" class="section">
-      <h2>交易紀錄列表</h2>
-      <div id="recordList">尚無紀錄</div>
-    </div>
-
-    <div id="loginBox" class="section">
-      <h2>登入系統</h2>
-      <input type="text" id="user" placeholder="帳號">
-      <input type="password" id="pass" placeholder="密碼">
-      <button onclick="login()">登入</button>
-    </div>
-  </div>
-
-<script>
-  let isLogin = false;
-  function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    const navItems = document.getElementById('navItems');
-    sidebar.classList.toggle('collapsed');
-    navItems.style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
-    document.getElementById('loginControl').style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
-  }
-
-  function showSection(id) {
-    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-
-  function toggleLogin() {
-    showSection('loginBox');
-  }
-
-  function login() {
-    const user = document.getElementById('user').value;
-    const pass = document.getElementById('pass').value;
-    if (user === 'admin' && pass === 'lin1123') {
-      isLogin = true;
-      document.getElementById('loginBox').classList.remove('active');
-      document.getElementById('recordNav').classList.remove('hidden');
-      document.getElementById('loginStatus').classList.remove('hidden');
-      document.getElementById('loginBtn').classList.add('hidden');
-      document.getElementById('logoutBtn').classList.remove('hidden');
-    } else {
-      alert('登入失敗');
-    }
-  }
-
-  function logout() {
-    isLogin = false;
-    document.getElementById('recordNav').classList.add('hidden');
-    document.getElementById('loginStatus').classList.add('hidden');
-    document.getElementById('logoutBtn').classList.add('hidden');
-    document.getElementById('loginBtn').classList.remove('hidden');
-    showSection('exchange');
-  }
-    </div>
-  </div>
-
-  <div class="main">
-    <div id="record" class="section">
-      <h2>新增交易紀錄（登入後可見）</h2>
-      <form id="recordForm">
-        <input type="text" placeholder="交易品種" required>
-        <input type="text" placeholder="策略" required>
-        <textarea placeholder="心得..." required></textarea>
-        <input type="file" accept="image/*,video/*">
-        <button type="submit">送出</button>
-      </form>
-    </div>
-
-    <div id="records" class="section">
-      <h2>交易紀錄列表</h2>
-      <div id="recordList">尚無紀錄</div>
-    </div>
-
-    <div id="loginBox" class="section">
-      <h2>登入系統</h2>
-      <input type="text" id="user" placeholder="帳號">
-      <input type="password" id="pass" placeholder="密碼">
-      <button onclick="login()">登入</button>
-    </div>
-  </div>
-
-<script>
-  let isLogin = false;
-  function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('collapsed');
-  }
-
-  function showSection(id) {
-    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-
-  function toggleLogin() {
-    showSection('loginBox');
-  }
-
-  function login() {
-    const user = document.getElementById('user').value;
-    const pass = document.getElementById('pass').value;
-    if (user === 'admin' && pass === 'lin1123') {
-      isLogin = true;
-      document.getElementById('loginBox').classList.remove('active');
-      document.getElementById('recordNav').classList.remove('hidden');
-      document.getElementById('loginStatus').classList.remove('hidden');
-      document.getElementById('loginBtn').classList.add('hidden');
-      document.getElementById('logoutBtn').classList.remove('hidden');
-    } else {
-      alert('登入失敗');
-    }
-  }
-
-  function logout() {
-    isLogin = false;
-    document.getElementById('recordNav').classList.add('hidden');
-    document.getElementById('loginStatus').classList.add('hidden');
-    document.getElementById('logoutBtn').classList.add('hidden');
-    document.getElementById('loginBtn').classList.remove('hidden');
-    showSection('exchange');
-  }
-
-
-  <div class="main">
-    <div style="font-size: 14px; margin-bottom: 20px; background: #1e293b; padding: 15px; border-radius: 8px; border: 1px solid #374151;">
-      <h2 style="margin-top: 0; color: #60a5fa;">關於我</h2>
-      <p>嗨！我是ken，一名熱愛學習與分享的工程師。交易路上走了五年，一開始也曾跌跌撞撞、嚐過虧損與迷惘。後來我學會透過紀錄與反思強化策略、管理風險、修正心態。<br><br>
-      我鑽研過 SMC（Smart Money Concept）、諧波型態、波浪理論、裸K 行為學…但最後我發現，<strong>紀律與紀錄才是交易真正的核心</strong>。希望這些工具與分享能讓你少走一些冤枉路，一起穩定成長 💪</p>
-    </div>
+  <div class="main" id="main">
     <div id="exchange" class="section active">
-     
+      <div style="font-size: 14px; margin-bottom: 20px; background: #1e293b; padding: 15px; border-radius: 8px; border: 1px solid #374151;">
+        <h2 style="margin-top: 0; color: #60a5fa;">關於我</h2>
+        <p>嗨！我是ken，一名熱愛學習與分享的工程師。交易路上走了五年，一開始也曾跌跌撞撞、嚐過虧損與迷惘。後來我學會透過紀錄與反思強化策略、管理風險、修正心態。<br><br>
+        我鑽研過 SMC（Smart Money Concept）、諧波型態、波浪理論、裸K 行為學…但最後我發現，<strong>紀律與紀錄才是交易真正的核心</strong>。希望這些工具與分享能讓你少走一些冤枉路，一起穩定成長 💪</p>
+      </div>
+
       <h2>為什麼選擇 Bybit、Binance、Bitget？</h2>
       <ul>
         <li><strong>Bybit：</strong>介面直觀、支援繁體中文，操作流暢，非常適合新手快速上手；同時提供強大的合約交易與高回饋活動。</li>
@@ -269,7 +134,7 @@
         <li>裸K 技術圖解 PDF（收錄常見圖形＋應用技巧）</li>
         <li>交易心態與策略文章（協助建立穩定系統）</li>
       </ul>
-       <img src="https://github.com/patrick112345678/crypto-promo/blob/main/Snipaste_2025-04-25_13-43-47.png?raw=true" alt="資源包圖示" style="max-width: 100%; margin-bottom: 20px; border-radius: 8px;">
+      <img src="https://github.com/patrick112345678/crypto-promo/blob/main/Snipaste_2025-04-25_13-43-47.png?raw=true" alt="資源包圖示" style="max-width: 100%; margin-bottom: 20px; border-radius: 8px;">
       <p style="font-size: 15px; color: #fbbf24; font-weight: bold; margin-top: -10px;">📌 圖中所示所有資源將在完成註冊與 KYC 後全數免費分享給您！</p>
       <h3>立即註冊領取資源包：</h3>
       <ul>
@@ -277,14 +142,12 @@
         <li><strong>Binance 註冊連結：</strong><a href="https://accounts.binance.com/register?ref=509452263" target="_blank" style="color:#3b82f6">https://accounts.binance.com/register?ref=509452263</a></li>
         <li><strong>Bitget 註冊連結：</strong><a href="https://share.bitget.com/u/LEVGYETJ" target="_blank" style="color:#3b82f6">https://share.bitget.com/u/LEVGYETJ</a></li>
       </ul>
-
       <h3>📬 聯絡方式</h3>
       <ul>
         <li>Email：<a href="mailto:a2805678@gmail.com" style="color:#3b82f6">a2805678@gmail.com</a></li>
         <li>Telegram：<a href="https://t.me/a2805678" target="_blank" style="color:#3b82f6">@a2805678</a></li>
         <li>Discord：<span style="color:#f9fafb">patrick1123</span></li>
       </ul>
-
       <h3>📌 免責聲明</h3>
       <p style="font-size: 14px; color: #9ca3af; line-height: 1.6;">
         本頁面僅為個人經驗與教學分享，不構成任何投資建議。交易市場具有高度風險，請自行評估風險承受能力。使用推薦連結註冊不影響您的權益，亦無強制要求購買或操作。若因使用本頁內容進行交易所造成之任何損失，本站恕不負責。
@@ -319,11 +182,9 @@
   let isLogin = false;
   function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
+    const navItems = document.getElementById('navItems');
     sidebar.classList.toggle('collapsed');
-    const links = sidebar.querySelectorAll('.nav-link');
-    links.forEach(link => {
-      link.style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
-    });
+    navItems.style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
     document.getElementById('loginControl').style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
   }
 
