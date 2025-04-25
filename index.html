@@ -3,86 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto 成長日記｜交易資源分享</title>
-  <meta name="description" content="加密貨幣交易學習資源｜免費提供 Notion 交易紀錄表、Excel 分析表、裸K 技術圖解與策略模板，協助新手穩健成長。">
-  <meta name="keywords" content="bybit 註冊, binance 註冊, bitget 註冊, SMC, 波浪理論, 諧波型態, 交易紀錄, 裸K, 技術分析, 心態訓練">
+  <title>Crypto 成長日記</title>
   <style>
-    body { font-family: "Segoe UI", sans-serif; background: #f5f5f4; color: #1f2937; padding: 20px; max-width: 800px; margin: auto; line-height: 1.8; }
-    header { text-align: center; margin-bottom: 50px; }
-    header h1 { color: #3b82f6; margin-bottom: 8px; font-size: 32px; }
-    header p { color: #555; font-size: 18px; }
-    section { margin-bottom: 40px; }
-    h2 { color: #1e40af; margin-bottom: 16px; font-size: 24px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
-    p, li { font-size: 17px; }
-    ul { padding-left: 20px; }
-    a.cta-link { color: #3b82f6; text-decoration: underline; font-weight: bold; }
-    .k-pattern img { width: 100%; max-width: 680px; margin: 20px auto; display: block; border-radius: 8px; }
-    footer { text-align: center; font-size: 14px; color: #888; margin-top: 60px; border-top: 1px solid #ddd; padding-top: 20px; }
+    * { box-sizing: border-box; }
+    body { font-family: "Segoe UI", sans-serif; background: #111827; color: #f3f4f6; margin: 0; display: flex; transition: margin-left 0.3s; }
+    aside {
+      width: 220px;
+      background: #1f2937;
+      padding: 20px;
+      min-height: 100vh;
+      position: fixed;
+      transition: transform 0.3s ease-in-out;
+    }
+    aside h1 {
+      color: #3b82f6;
+      font-size: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    aside a {
+      display: block;
+      color: #f3f4f6;
+      text-decoration: none;
+      margin: 12px 0;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    aside a:hover {
+      color: #60a5fa;
+    }
+    .toggle-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+      position: fixed;
+      top: 20px;
+      left: 230px;
+      z-index: 999;
+    }
+    main {
+      margin-left: 240px;
+      padding: 30px;
+      flex: 1;
+      transition: margin-left 0.3s;
+    }
+    main > header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #60a5fa;
+      margin-bottom: 16px;
+      font-size: 24px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 8px;
+    }
+    label, input, textarea, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    input, textarea {
+      padding: 8px;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      background: #1e293b;
+      color: #f3f4f6;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    .trade-record {
+      margin-bottom: 32px;
+      padding: 16px;
+      border-bottom: 1px dashed #4b5563;
+    }
+    #tradeFormWrapper { display: none; }
+    #loginPrompt { color: #9ca3af; text-align: center; font-style: italic; }
+    #exchange, #records, #viewrecords { display: none; }
+    .collapsed aside { transform: translateX(-240px); }
+    .collapsed main { margin-left: 0; }
+    .collapsed .toggle-btn { left: 20px; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>📈 Crypto 成長日記</h1>
-  <p>分享交易工具｜技術分析｜心態養成</p>
-</header>
+<aside>
+  <h1>📈 Crypto 日記</h1>
+  <a onclick="showSection('exchange')">📌 交易所分享</a>
+  <a onclick="showSection('records')">📝 新增交易紀錄</a>
+  <a onclick="showSection('viewrecords')">📂 查看交易紀錄</a>
+</aside>
+<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
-<section>
-  <h2>關於我</h2>
-  <p>身為一位熱愛交易的學習者，我曾深入研究過：</p>
-  <ul>
-    <li><strong>諧波型態 (Harmonic Patterns)</strong>：尋找特定比例的價格反轉結構，如蝙蝠型態、螃蟹型態。</li>
-    <li><strong>SMC (Smart Money Concepts)</strong>：理解機構資金行為，掌握供需區與結構破壞（BOS）。</li>
-    <li><strong>波浪理論 (Elliott Wave Theory)</strong>：解析市場自然循環與情緒波動。</li>
-    <li><strong>形態學 (Price Pattern Study)</strong>：純價格行為判讀，不依賴指標。</li>
-  </ul>
-  <p>但我深刻體認到：<strong>技術只是一部分，真正的核心是交易心態與紀律</strong>。<br>持續紀錄、反思，才能成為真正穩健且長期獲利的交易者。</p>
-</section>
+<main>
+  <header><h1>Crypto 成長日記</h1></header>
 
-<section>
-  <h2>提供的免費資源</h2>
-  <ul>
-    <li>📒 Notion 交易紀錄模板（含分類統計、自動回顧功能）</li>
-    <li>📊 Excel 數據表單（勝率、盈虧比、止盈率等指標追蹤）</li>
-    <li>📈 裸K 技術圖解 PDF（共 75 種型態＋應用法則）</li>
-    <li>📚 策略範本（支撐壓力、OB 回踩、MACD 背離等）</li>
-  </ul>
-</section>
+  <section id="exchange">
+    <h2>交易所推薦與資源包</h2>
+    <ul>
+      <li><a href="https://www.bybit.com/invite?ref=Y8MMQ7" target="_blank">註冊 Bybit</a></li>
+      <li><a href="https://accounts.binance.com/register?ref=509452263" target="_blank">註冊 Binance</a></li>
+      <li><a href="https://share.bitget.com/u/LEVGYETJ" target="_blank">註冊 Bitget</a></li>
+    </ul>
+    <p>完成註冊與 KYC 即可免費獲得 Notion / Excel / 裸K 圖解等完整資源包。</p>
+  </section>
 
-<section>
-  <h2>註冊教學</h2>
-  <p>完成以下步驟，即可領取完整交易資源包：</p>
-  <ol>
-    <li>點擊下方註冊連結，完成帳號開設與 KYC 認證</li>
-    <li>截圖註冊完成畫面，私訊給我（Telegram / Email / Discord）</li>
-    <li>24 小時內寄送贈禮包給你</li>
-  </ol>
-  <p>
-    ➡️ <a class="cta-link" href="https://www.bybit.com/invite?ref=Y8MMQ7" target="_blank">註冊 Bybit</a><br>
-    ➡️ <a class="cta-link" href="https://accounts.binance.com/register?ref=509452263" target="_blank">註冊 Binance</a><br>
-    ➡️ <a class="cta-link" href="https://share.bitget.com/u/LEVGYETJ" target="_blank">註冊 Bitget</a>
-  </p>
-</section>
+  <section id="records">
+    <h2>新增交易紀錄</h2>
+    <div id="loginPrompt">⚠️ 請先登入才能新增交易紀錄。</div>
+    <div id="tradeFormWrapper">
+      <form id="tradeForm">
+        <label>日期</label>
+        <input type="text" id="date" placeholder="例如：2025/04/27" required>
+        <label>交易品種</label>
+        <input type="text" id="pair" placeholder="例如：BTC/USDT" required>
+        <label>策略應用</label>
+        <input type="text" id="strategy" placeholder="例如：SMC 破結構回踩 OB 進場" required>
+        <label>心得</label>
+        <textarea id="notes" rows="3" placeholder="這次交易的心得或需要改進的地方..." required></textarea>
+        <button type="submit">新增交易紀錄</button>
+      </form>
+    </div>
+  </section>
 
-<section class="k-pattern">
-  <h2>搶先預覽｜裸K 技術圖解</h2>
-  <img src="https://raw.githubusercontent.com/patrick112345678/crypto-promo/main/Snipaste_2025-04-25_13-43-47.png" alt="裸K技術分析圖">
-  <p style="text-align: center;">完整收錄 75 種型態與實戰應用 📖</p>
-</section>
+  <section id="viewrecords">
+    <h2>目前交易紀錄</h2>
+    <div id="recordsList"></div>
+  </section>
+</main>
 
-<section>
-  <h2>聯絡我</h2>
-  <ul>
-    <li>Telegram：<a class="cta-link" href="https://t.me/a2805678" target="_blank">@a2805678</a></li>
-    <li>Email：<a class="cta-link" href="mailto:a2805678@gmail.com">a2805678@gmail.com</a></li>
-    <li>Discord：patrick1123</li>
-  </ul>
-</section>
+<script>
+  const form = document.getElementById('tradeForm');
+  const recordsDiv = document.getElementById('recordsList');
+  const loginPrompt = document.getElementById('loginPrompt');
+  const tradeFormWrapper = document.getElementById('tradeFormWrapper');
 
-<footer>
-  本頁由 Crypto 成長日記 製作，純分享性質，與 Bybit、Binance、Bitget 官方無直接關聯。<br>
-  加密貨幣交易具高風險，請自行審慎評估後參與。
-</footer>
+  function showSection(id) {
+    ['exchange', 'records', 'viewrecords'].forEach(sec => {
+      document.getElementById(sec).style.display = 'none';
+    });
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function toggleSidebar() {
+    document.body.classList.toggle('collapsed');
+  }
+
+  const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
+  if (isLoggedIn) {
+    loginPrompt.style.display = 'none';
+    tradeFormWrapper.style.display = 'block';
+  } else {
+    const username = prompt("請輸入帳號");
+    const password = prompt("請輸入密碼");
+    if (username === 'admin' && password === '123456') {
+      sessionStorage.setItem('loggedIn', 'true');
+      loginPrompt.style.display = 'none';
+      tradeFormWrapper.style.display = 'block';
+    } else {
+      alert('未授權，僅可瀏覽交易紀錄。');
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const date = document.getElementById('date').value;
+    const pair = document.getElementById('pair').value;
+    const strategy = document.getElementById('strategy').value;
+    const notes = document.getElementById('notes').value;
+    const record = { date, pair, strategy, notes };
+    const records = JSON.parse(localStorage.getItem('records') || '[]');
+    records.unshift(record);
+    localStorage.setItem('records', JSON.stringify(records));
+    renderRecords(records);
+    form.reset();
+  });
+
+  function loadRecords() {
+    const records = JSON.parse(localStorage.getItem('records') || '[]');
+    renderRecords(records);
+  }
+
+  function renderRecords(records) {
+    recordsDiv.innerHTML = '';
+    records.forEach(r => {
+      recordsDiv.innerHTML += `
+        <div class="trade-record">
+          <p><strong>日期：</strong> ${r.date}</p>
+          <p><strong>交易品種：</strong> ${r.pair}</p>
+          <p><strong>策略應用：</strong> ${r.strategy}</p>
+          <p><strong>心得：</strong> ${r.notes}</p>
+        </div>
+      `;
+    });
+  }
+
+  loadRecords();
+  showSection('exchange');
+</script>
 
 </body>
 </html>
