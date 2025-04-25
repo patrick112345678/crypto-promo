@@ -238,43 +238,5 @@
   }
 
 
-<script>
-  function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('collapsed');
-  }
-
-  function showSection(id) {
-    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-    const section = document.getElementById(id);
-    if (section) section.classList.add('active');
-  }
-
-  function toggleLogin() {
-    showSection('loginBox');
-  }
-
-  function login() {
-    const user = document.getElementById('user').value;
-    const pass = document.getElementById('pass').value;
-    if (user === 'admin' && pass === 'lin1123') {
-      document.getElementById('loginBox').classList.remove('active');
-      document.getElementById('recordNav').classList.remove('hidden');
-      document.getElementById('loginStatus').classList.remove('hidden');
-      document.getElementById('loginBtn').classList.add('hidden');
-      document.getElementById('logoutBtn').classList.remove('hidden');
-    } else {
-      alert('登入失敗');
-    }
-  }
-
-  function logout() {
-    document.getElementById('recordNav').classList.add('hidden');
-    document.getElementById('loginStatus').classList.add('hidden');
-    document.getElementById('logoutBtn').classList.add('hidden');
-    document.getElementById('loginBtn').classList.remove('hidden');
-    showSection('exchange');
-  }
-</script>
 </body>
 </html>
