@@ -6,52 +6,50 @@
   <title>Crypto 成長日記</title>
   <style>
     * { box-sizing: border-box; }
-    body { font-family: "Segoe UI", sans-serif; background: #111827; color: #f3f4f6; margin: 0; display: flex; transition: margin-left 0.3s; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #111827;
+      color: #f3f4f6;
+      margin: 0;
+      display: flex;
+      transition: margin-left 0.3s;
+    }
     aside {
-      width: 220px;
+      width: 60px;
       background: #1f2937;
-      padding: 20px;
+      padding: 20px 10px;
       min-height: 100vh;
       position: fixed;
-      transition: transform 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
     }
     aside h1 {
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
       color: #3b82f6;
-      font-size: 20px;
-      margin-bottom: 20px;
+      font-size: 18px;
+      margin-bottom: 30px;
       text-align: center;
     }
     aside a {
       display: block;
       color: #f3f4f6;
       text-decoration: none;
-      margin: 12px 0;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      transition: color 0.2s;
+      margin: 24px 0;
+      font-size: 20px;
+      text-align: center;
+      transition: all 0.2s ease-in-out;
+      padding: 10px;
+      border-radius: 8px;
     }
     aside a:hover {
+      background-color: #374151;
       color: #60a5fa;
-    }
-    .toggle-btn {
-      background: #3b82f6;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 6px;
-      position: fixed;
-      top: 20px;
-      left: 230px;
-      z-index: 999;
+      box-shadow: 0 0 10px #3b82f6;
     }
     main {
-      margin-left: 240px;
+      margin-left: 80px;
       padding: 30px;
       flex: 1;
-      transition: margin-left 0.3s;
     }
     main > header {
       text-align: center;
@@ -93,23 +91,17 @@
       padding: 16px;
       border-bottom: 1px dashed #4b5563;
     }
-    #tradeFormWrapper { display: none; }
-    #loginPrompt { color: #9ca3af; text-align: center; font-style: italic; }
     #exchange, #records, #viewrecords { display: none; }
-    .collapsed aside { transform: translateX(-240px); }
-    .collapsed main { margin-left: 0; }
-    .collapsed .toggle-btn { left: 20px; }
   </style>
 </head>
 <body>
 
 <aside>
-  <h1>📈 Crypto 日記</h1>
-  <a onclick="showSection('exchange')">📌 交易所分享</a>
-  <a onclick="showSection('records')">📝 新增交易紀錄</a>
-  <a onclick="showSection('viewrecords')">📂 查看交易紀錄</a>
+  <h1>日記</h1>
+  <a onclick="showSection('exchange')" title="交易所推薦">📌</a>
+  <a onclick="showSection('records')" title="新增交易紀錄">📝</a>
+  <a onclick="showSection('viewrecords')" title="查看紀錄">📂</a>
 </aside>
-<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
 <main>
   <header><h1>Crypto 成長日記</h1></header>
@@ -126,7 +118,6 @@
 
   <section id="records">
     <h2>新增交易紀錄</h2>
-    <div id="loginPrompt">⚠️ 請先登入才能新增交易紀錄。</div>
     <div id="tradeFormWrapper">
       <form id="tradeForm">
         <label>日期</label>
@@ -151,34 +142,12 @@
 <script>
   const form = document.getElementById('tradeForm');
   const recordsDiv = document.getElementById('recordsList');
-  const loginPrompt = document.getElementById('loginPrompt');
-  const tradeFormWrapper = document.getElementById('tradeFormWrapper');
 
   function showSection(id) {
     ['exchange', 'records', 'viewrecords'].forEach(sec => {
       document.getElementById(sec).style.display = 'none';
     });
     document.getElementById(id).style.display = 'block';
-  }
-
-  function toggleSidebar() {
-    document.body.classList.toggle('collapsed');
-  }
-
-  const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
-  if (isLoggedIn) {
-    loginPrompt.style.display = 'none';
-    tradeFormWrapper.style.display = 'block';
-  } else {
-    const username = prompt("請輸入帳號");
-    const password = prompt("請輸入密碼");
-    if (username === 'admin' && password === '123456') {
-      sessionStorage.setItem('loggedIn', 'true');
-      loginPrompt.style.display = 'none';
-      tradeFormWrapper.style.display = 'block';
-    } else {
-      alert('未授權，僅可瀏覽交易紀錄。');
-    }
   }
 
   form.addEventListener('submit', (e) => {
