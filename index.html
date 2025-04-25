@@ -249,6 +249,35 @@
     document.getElementById('loginBtn').classList.remove('hidden');
     showSection('exchange');
   }
+   document.getElementById('recordForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const recordList = document.getElementById('recordList');
+    const form = e.target;
+    const title = form.querySelector('input[placeholder="交易品種"]').value;
+    const strategy = form.querySelector('input[placeholder="策略"]').value;
+    const notes = form.querySelector('textarea').value;
+    const files = form.querySelector('input[type="file"]').files;
+
+    let mediaHTML = '';
+    for (let file of files) {
+      const url = URL.createObjectURL(file);
+      if (file.type.startsWith('image')) {
+        mediaHTML += `<img src="${url}">`;
+      } else if (file.type.startsWith('video')) {
+        mediaHTML += `<video controls src="${url}"></video>`;
+      }
+    }
+
+    const recordHTML = `
+      <div class="record-item">
+        <div><strong>${title}</strong> - ${strategy}</div>
+        <p>${notes}</p>
+        ${mediaHTML}
+      </div>
+    `;
+    recordList.innerHTML += recordHTML;
+    form.reset();
+  });
 </script>
 </body>
 </html>
