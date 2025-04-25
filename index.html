@@ -136,9 +136,9 @@
   </div>
 
   <div class="main" id="main">
-    <div id="records" class="section active">
-      <h2>Trade Records</h2>
-      <p>嗨！我是ken，一名熱愛學習與分享的工程師。交易路上走了五年，一開始也曾跌跌撞撞、嚐過虧損與迷惘。後來我學會透過紀錄與反思強化策略、管理風險、修正心態。</p>
+    <div id="exchange" class="section">
+      <h2>交易所推薦</h2>
+       <p>嗨！我是ken，一名熱愛學習與分享的工程師。交易路上走了五年，一開始也曾跌跌撞撞、嚐過虧損與迷惘。後來我學會透過紀錄與反思強化策略、管理風險、修正心態。</p>
       <p>我鑽研過 SMC（Smart Money Concept）、諧波型態、波浪理論、裸K 行為學…但最後我發現，<strong>紀律與紀錄才是交易真正的核心</strong>。希望這些工具與分享能讓你少走一些冤枉路，一起穩定成長 💪</p>
       <ul>
         <li><strong>Bybit：</strong>介面直觀、支援繁體中文，操作流暢，非常適合新手快速上手；同時提供強大的合約交易與高回饋活動。</li>
@@ -179,7 +179,8 @@
 
   function showSection(id) {
     document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    const section = document.getElementById(id);
+    if (section) section.classList.add('active');
   }
 
   function toggleLogin() {
