@@ -34,9 +34,6 @@
       font-size: 22px;
       margin-bottom: 20px;
     }
-    .sidebar.collapsed .menu-toggle::after {
-      content: '≡';
-    }
     .nav-link {
       color: #f3f4f6;
       text-decoration: none;
@@ -47,6 +44,10 @@
       background: none;
       font-size: 16px;
       cursor: pointer;
+      display: block;
+    }
+    .sidebar.collapsed .nav-link {
+      display: none;
     }
     .nav-link:hover {
       background: #374151;
@@ -63,6 +64,9 @@
       width: 100%;
       text-align: center;
     }
+    .sidebar.collapsed #loginControl {
+      display: none;
+    }
     #loginStatus {
       margin-top: 5px;
       font-size: 14px;
@@ -78,7 +82,7 @@
       font-size: 14px;
     }
     #loginBox input {
-      margin-right: 5px;
+      margin-bottom: 10px;
       width: 160px;
     }
     #loginBox button {
@@ -98,6 +102,72 @@
       <div id="loginStatus" class="hidden">已登入 admin</div>
     </div>
   </div>
+
+  <div class="main">
+    <div id="record" class="section">
+      <h2>新增交易紀錄（登入後可見）</h2>
+      <form id="recordForm">
+        <input type="text" placeholder="交易品種" required>
+        <input type="text" placeholder="策略" required>
+        <textarea placeholder="心得..." required></textarea>
+        <input type="file" accept="image/*,video/*">
+        <button type="submit">送出</button>
+      </form>
+    </div>
+
+    <div id="records" class="section">
+      <h2>交易紀錄列表</h2>
+      <div id="recordList">尚無紀錄</div>
+    </div>
+
+    <div id="loginBox" class="section">
+      <h2>登入系統</h2>
+      <input type="text" id="user" placeholder="帳號">
+      <input type="password" id="pass" placeholder="密碼">
+      <button onclick="login()">登入</button>
+    </div>
+  </div>
+
+<script>
+  let isLogin = false;
+  function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('collapsed');
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function toggleLogin() {
+    showSection('loginBox');
+  }
+
+  function login() {
+    const user = document.getElementById('user').value;
+    const pass = document.getElementById('pass').value;
+    if (user === 'admin' && pass === 'lin1123') {
+      isLogin = true;
+      document.getElementById('loginBox').classList.remove('active');
+      document.getElementById('recordNav').classList.remove('hidden');
+      document.getElementById('loginStatus').classList.remove('hidden');
+      document.getElementById('loginBtn').classList.add('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
+    } else {
+      alert('登入失敗');
+    }
+  }
+
+  function logout() {
+    isLogin = false;
+    document.getElementById('recordNav').classList.add('hidden');
+    document.getElementById('loginStatus').classList.add('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
+    document.getElementById('loginBtn').classList.remove('hidden');
+    showSection('exchange');
+  }
+
 
   <div class="main">
     <div style="font-size: 14px; margin-bottom: 20px; background: #1e293b; padding: 15px; border-radius: 8px; border: 1px solid #374151;">
