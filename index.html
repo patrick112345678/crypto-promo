@@ -98,6 +98,26 @@
     #loginBox button {
       margin-top: 10px;
     }
+    .record-item {
+      background: #1e293b;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .record-item img, .record-item video {
+      max-width: 100%;
+      margin-top: 5px;
+      display: block;
+    }
+    .record-item button {
+      margin-top: 10px;
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -116,17 +136,377 @@
   </div>
 
   <div class="main" id="main">
-    <!-- 內容略 -->
+    <!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto 成長日記</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #111827;
+      color: #f3f4f6;
+      margin: 0;
+      display: flex;
+    }
+    .sidebar {
+      width: 220px;
+      background: #1f2937;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s ease-in-out;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+    }
+    .sidebar.collapsed {
+      width: 60px;
+    }
+    .menu-toggle {
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      text-align: left;
+    }
+    .nav-link {
+      color: #f3f4f6;
+      text-decoration: none;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: none;
+      font-size: 16px;
+      cursor: pointer;
+      display: block;
+    }
+    .sidebar.collapsed .nav-link {
+      display: none;
+    }
+    .nav-link:hover {
+      background: #374151;
+    }
+    .main {
+      margin-left: 220px;
+      flex: 1;
+      padding: 30px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+    .sidebar.collapsed + .main {
+      margin-left: 60px;
+    }
+    .hidden { display: none; }
+    #loginControl {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    .sidebar.collapsed #loginControl {
+      display: none;
+    }
+    #loginStatus {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #22c55e;
+    }
+    .section { display: none; }
+    .active { display: block; }
+    form input, form textarea {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+    }
+    #loginBox input {
+      margin-bottom: 10px;
+      width: 160px;
+    }
+    #loginBox button {
+      margin-top: 10px;
+    }
+    .record-item {
+      background: #1e293b;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .record-item img, .record-item video {
+      max-width: 100%;
+      margin-top: 5px;
+      display: block;
+    }
+    .record-item button {
+      margin-top: 10px;
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <button class="menu-toggle" onclick="toggleMenu()">≡</button>
+    <div id="navItems">
+      <button class="nav-link" onclick="showSection('exchange')">交易所推薦</button>
+      <button class="nav-link hidden" id="recordNav" onclick="showSection('record')">新增交易紀錄</button>
+      <button class="nav-link" onclick="showSection('records')">查看紀錄</button>
+    </div>
+    <div id="loginControl">
+      <button class="nav-link" id="loginBtn" onclick="toggleLogin()">登入</button>
+      <button class="nav-link hidden" id="logoutBtn" onclick="logout()">登出</button>
+      <div id="loginStatus" class="hidden">已登入 admin</div>
+    </div>
+  </div>
+
+  <div class="main" id="main">
+    <div id="record" class="section">
+      <h2>新增交易紀錄（登入後可見）</h2>
+      <form id="recordForm">
+        <input type="text" id="asset" placeholder="交易品種" required>
+        <input type="text" id="strategy" placeholder="策略" required>
+        <textarea id="note" placeholder="心得..." required></textarea>
+        <input type="file" id="attachment" accept="image/*,video/*" multiple>
+        <button type="submit">送出</button>
+      </form>
+    </div>
+
+    <div id="records" class="section">
+      <h2>交易紀錄列表</h2>
+      <div id="recordList">尚無紀錄</div>
+    </div>
+
+    <div id="loginBox" class="section">
+      <h2>登入系統</h2>
+      <input type="text" id="user" placeholder="帳號">
+      <input type="password" id="pass" placeholder="密碼">
+      <button onclick="login()">登入</button>
+    </div>
   </div>
 
 <script>
   let isLogin = false;
+  const records = []; // 儲存交易紀錄的陣列
+
   function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
     const navItems = document.getElementById('navItems');
     sidebar.classList.toggle('collapsed');
     navItems.style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
     document.getElementById('loginControl').style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'records') renderRecords();
+  }
+
+  function toggleLogin() {
+    showSection('loginBox');
+  }
+
+  function login() {
+    const user = document.getElementById('user').value;
+    const pass = document.getElementById('pass').value;
+    if (user === 'admin' && pass === 'lin1123') {
+      isLogin = true;
+      document.getElementById('loginBox').classList.remove('active');
+      document.getElementById('recordNav').classList.remove('hidden');
+      document.getElementById('loginStatus').classList.remove('hidden');
+      document.getElementById('loginBtn').classList.add('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
+    } else {
+      alert('登入失敗');
+    }
+  }
+
+  function logout() {
+    isLogin = false;
+    document.getElementById('recordNav').classList.add('hidden');
+    document.getElementById('loginStatus').classList.add('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
+    document.getElementById('loginBtn').classList.remove('hidden');
+    showSection('exchange');
+  }
+
+  document.getElementById('recordForm')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const asset = document.getElementById('asset').value;
+    const strategy = document.getElementById('strategy').value;
+    const note = document.getElementById('note').value;
+    const files = document.getElementById('attachment').files;
+
+    let media = '';
+    Array.from(files).forEach(file => {
+      const url = URL.createObjectURL(file);
+      if (file.type.startsWith('image/')) {
+        media += `<img src="${url}" alt="">`;
+      } else if (file.type.startsWith('video/')) {
+        media += `<video src="${url}" controls></video>`;
+      }
+    });
+
+    records.push({ asset, strategy, note, media });
+    document.getElementById('recordForm').reset();
+    alert('紀錄已新增！');
+  });
+
+  function renderRecords() {
+    const container = document.getElementById('recordList');
+    if (records.length === 0) {
+      container.innerHTML = '尚無紀錄';
+    } else {
+      container.innerHTML = records.map((r, i) => `
+        <div class="record-item">
+          <strong>品種：</strong>${r.asset}<br>
+          <strong>策略：</strong>${r.strategy}<br>
+          <strong>心得：</strong>${r.note}<br>
+          ${r.media}
+          ${isLogin ? `<button onclick="deleteRecord(${i})">刪除</button>` : ''}
+        </div>
+      `).join('');
+    }
+  }
+
+  function deleteRecord(index) {
+    if (confirm('確定要刪除這筆紀錄嗎？')) {
+      records.splice(index, 1);
+      renderRecords();
+    }
+  }
+</script>
+</body>
+</html>
+
+    <div id="record" class="section">
+      <h2>新增交易紀錄（登入後可見）</h2>
+      <form id="recordForm">
+        <input type="text" id="asset" placeholder="交易品種" required>
+        <input type="text" id="strategy" placeholder="策略" required>
+        <textarea id="note" placeholder="心得..." required></textarea>
+        <input type="file" id="attachment" accept="image/*,video/*" multiple>
+        <button type="submit">送出</button>
+      </form>
+    </div>
+
+    <div id="records" class="section">
+      <h2>交易紀錄列表</h2>
+      <div id="recordList">尚無紀錄</div>
+    </div>
+
+    <div id="loginBox" class="section">
+      <h2>登入系統</h2>
+      <input type="text" id="user" placeholder="帳號">
+      <input type="password" id="pass" placeholder="密碼">
+      <button onclick="login()">登入</button>
+    </div>
+  </div>
+
+<script>
+  let isLogin = false;
+  const records = []; // 儲存交易紀錄的陣列
+
+  function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const navItems = document.getElementById('navItems');
+    sidebar.classList.toggle('collapsed');
+    navItems.style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
+    document.getElementById('loginControl').style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'records') renderRecords();
+  }
+
+  function toggleLogin() {
+    showSection('loginBox');
+  }
+
+  function login() {
+    const user = document.getElementById('user').value;
+    const pass = document.getElementById('pass').value;
+    if (user === 'admin' && pass === 'lin1123') {
+      isLogin = true;
+      document.getElementById('loginBox').classList.remove('active');
+      document.getElementById('recordNav').classList.remove('hidden');
+      document.getElementById('loginStatus').classList.remove('hidden');
+      document.getElementById('loginBtn').classList.add('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
+    } else {
+      alert('登入失敗');
+    }
+  }
+
+  function logout() {
+    isLogin = false;
+    document.getElementById('recordNav').classList.add('hidden');
+    document.getElementById('loginStatus').classList.add('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
+    document.getElementById('loginBtn').classList.remove('hidden');
+    showSection('exchange');
+  }
+
+  document.getElementById('recordForm')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const asset = document.getElementById('asset').value;
+    const strategy = document.getElementById('strategy').value;
+    const note = document.getElementById('note').value;
+    const files = document.getElementById('attachment').files;
+
+    let media = '';
+    Array.from(files).forEach(file => {
+      const url = URL.createObjectURL(file);
+      if (file.type.startsWith('image/')) {
+        media += `<img src="${url}" alt="">`;
+      } else if (file.type.startsWith('video/')) {
+        media += `<video src="${url}" controls></video>`;
+      }
+    });
+
+    records.push({ asset, strategy, note, media });
+    document.getElementById('recordForm').reset();
+    alert('紀錄已新增！');
+  });
+
+  function renderRecords() {
+    const container = document.getElementById('recordList');
+    if (records.length === 0) {
+      container.innerHTML = '尚無紀錄';
+    } else {
+      container.innerHTML = records.map((r, i) => `
+        <div class="record-item">
+          <strong>品種：</strong>${r.asset}<br>
+          <strong>策略：</strong>${r.strategy}<br>
+          <strong>心得：</strong>${r.note}<br>
+          ${r.media}
+          ${isLogin ? `<button onclick="deleteRecord(${i})">刪除</button>` : ''}
+        </div>
+      `).join('');
+    }
+  }
+
+  function deleteRecord(index) {
+    if (confirm('確定要刪除這筆紀錄嗎？')) {
+      records.splice(index, 1);
+      renderRecords();
+    }
   }
 </script>
 </body>
