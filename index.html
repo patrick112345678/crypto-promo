@@ -12,226 +12,163 @@
       color: #f3f4f6;
       margin: 0;
       display: flex;
-      transition: margin-left 0.3s;
     }
-    aside {
-      width: 60px;
+    .sidebar {
+      width: 220px;
       background: #1f2937;
-      padding: 20px 10px;
-      min-height: 100vh;
-      position: fixed;
-      transition: all 0.3s ease-in-out;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: width 0.3s ease-in-out;
+      position: relative;
     }
-    aside h1 {
-      writing-mode: vertical-lr;
-      transform: rotate(180deg);
-      color: #3b82f6;
+    .sidebar.collapsed {
+      width: 60px;
+    }
+    .menu-toggle {
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
       font-size: 18px;
-      margin-bottom: 30px;
-      text-align: center;
+      margin-bottom: 20px;
     }
-    aside a {
-      display: block;
+    .nav-link {
       color: #f3f4f6;
       text-decoration: none;
-      margin: 24px 0;
-      font-size: 20px;
-      text-align: center;
-      transition: all 0.2s ease-in-out;
-      padding: 10px;
-      border-radius: 8px;
-    }
-    aside a:hover {
-      background-color: #374151;
-      color: #60a5fa;
-      box-shadow: 0 0 10px #3b82f6;
-    }
-    main {
-      margin-left: 80px;
-      padding: 30px;
-      flex: 1;
-    }
-    main > header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    h2 {
-      color: #60a5fa;
-      margin-bottom: 16px;
-      font-size: 24px;
-      border-bottom: 1px solid #374151;
-      padding-bottom: 8px;
-    }
-    label, input, textarea, button {
-      display: block;
+      padding: 10px 20px;
       width: 100%;
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-    input, textarea {
-      padding: 8px;
-      border: 1px solid #374151;
-      border-radius: 6px;
-      background: #1e293b;
-      color: #f3f4f6;
-    }
-    button {
-      background: #3b82f6;
-      color: white;
-      padding: 10px;
+      text-align: left;
       border: none;
-      border-radius: 8px;
+      background: none;
+      font-size: 16px;
       cursor: pointer;
     }
-    button:hover {
-      background: #2563eb;
+    .nav-link:hover {
+      background: #374151;
     }
-    .trade-record {
-      margin-bottom: 32px;
-      padding: 16px;
-      border-bottom: 1px dashed #4b5563;
+    .main {
+      flex: 1;
+      padding: 30px;
     }
-    #exchange, #records, #viewrecords { display: none; }
-    .content-block ul {
-      padding-left: 20px;
+    .hidden { display: none; }
+    #loginControl {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
     }
-    .content-block li {
-      margin-bottom: 8px;
-    }
+    .section { display: none; }
+    .active { display: block; }
   </style>
 </head>
 <body>
+  <div class="sidebar" id="sidebar">
+    <button class="menu-toggle" onclick="toggleMenu()">≡ 選單</button>
+    <button class="nav-link" onclick="showSection('exchange')">交易所推薦</button>
+    <button class="nav-link hidden" id="recordNav" onclick="showSection('record')">新增交易紀錄</button>
+    <button class="nav-link" onclick="showSection('records')">查看紀錄</button>
+    <div id="loginControl">
+      <button class="nav-link" onclick="toggleLogin()">登入</button>
+      <div id="loginStatus" class="hidden">已登入 admin</div>
+    </div>
+  </div>
 
-<aside>
-  <h1>日記</h1>
-  <a onclick="showSection('exchange')" title="交易所推薦">📌</a>
-  <a onclick="toggleLogin()" title="新增交易紀錄">📝</a>
-  <a onclick="showSection('viewrecords')" title="查看紀錄">📂</a>
-</aside>
+  <div class="main">
+    <div style="font-size: 14px; margin-bottom: 20px; background: #1e293b; padding: 15px; border-radius: 8px; border: 1px solid #374151;">
+      <h2 style="margin-top: 0; color: #60a5fa;">關於我</h2>
+      <p>嗨！我是ken，一名熱愛學習與分享的工程師。交易路上走了五年，一開始也曾跌跌撞撞、嚐過虧損與迷惘。後來我學會透過紀錄與反思強化策略、管理風險、修正心態。<br><br>
+      我鑽研過 SMC（Smart Money Concept）、諧波型態、波浪理論、裸K 行為學…但最後我發現，<strong>紀律與紀錄才是交易真正的核心</strong>。希望這些工具與分享能讓你少走一些冤枉路，一起穩定成長 💪</p>
+    </div>
+    <div id="exchange" class="section active">
+     
+      <h2>為什麼選擇 Bybit、Binance、Bitget？</h2>
+      <ul>
+        <li><strong>Bybit：</strong>介面直觀、支援繁體中文，操作流暢，非常適合新手快速上手；同時提供強大的合約交易與高回饋活動。</li>
+        <li><strong>Binance：</strong>全球最大交易所，流動性最強，產品種類最多（合約、槓桿、Launchpad 等），是中高階交易者不可或缺的交易場域。</li>
+        <li><strong>Bitget：</strong>主打社群交易（Copy Trading），讓你能參考高手策略進場；同時在合約手續費與註冊活動上有許多優惠。</li>
+      </ul>
+      <p>📦 <strong>完成任一交易所註冊並完成 KYC 後，即可免費獲得以下資源包：</strong></p>
+      <ul>
+        <li>Notion 記錄模版（交易紀錄＋複盤架構）</li>
+        <li>Excel 整理表格（損益統計、自訂策略追蹤）</li>
+        <li>裸K 技術圖解 PDF（收錄常見圖形＋應用技巧）</li>
+        <li>交易心態與策略文章（協助建立穩定系統）</li>
+      </ul>
+       <img src="https://github.com/patrick112345678/crypto-promo/blob/main/Snipaste_2025-04-25_13-43-47.png?raw=true" alt="資源包圖示" style="max-width: 100%; margin-bottom: 20px; border-radius: 8px;">
+      <p style="font-size: 15px; color: #fbbf24; font-weight: bold; margin-top: -10px;">📌 圖中所示所有資源將在完成註冊與 KYC 後全數免費分享給您！</p>
+      <h3>立即註冊領取資源包：</h3>
+      <ul>
+        <li><strong>Bybit 註冊連結：</strong><a href="https://www.bybit.com/invite?ref=Y8MMQ7" target="_blank" style="color:#3b82f6">https://www.bybit.com/invite?ref=Y8MMQ7</a></li>
+        <li><strong>Binance 註冊連結：</strong><a href="https://accounts.binance.com/register?ref=509452263" target="_blank" style="color:#3b82f6">https://accounts.binance.com/register?ref=509452263</a></li>
+        <li><strong>Bitget 註冊連結：</strong><a href="https://share.bitget.com/u/LEVGYETJ" target="_blank" style="color:#3b82f6">https://share.bitget.com/u/LEVGYETJ</a></li>
+      </ul>
 
-<main>
-  <header><h1>Crypto 成長日記</h1></header>
+      <h3>📬 聯絡方式</h3>
+      <ul>
+        <li>Email：<a href="mailto:a2805678@gmail.com" style="color:#3b82f6">a2805678@gmail.com</a></li>
+        <li>Telegram：<a href="https://t.me/a2805678" target="_blank" style="color:#3b82f6">@a2805678</a></li>
+        <li>Discord：<span style="color:#f9fafb">patrick1123</span></li>
+      </ul>
 
-  <section id="exchange" class="content-block">
-    <h2>交易所推薦與資源包</h2>
-    <ul>
-      <li><a href="https://www.bybit.com/invite?ref=Y8MMQ7" target="_blank">註冊 Bybit</a></li>
-      <li><a href="https://accounts.binance.com/register?ref=509452263" target="_blank">註冊 Binance</a></li>
-      <li><a href="https://share.bitget.com/u/LEVGYETJ" target="_blank">註冊 Bitget</a></li>
-    </ul>
-    <p>完成註冊與 KYC 即可免費獲得 Notion / Excel / 裸K 圖解等完整資源包。</p>
+      <h3>📌 免責聲明</h3>
+      <p style="font-size: 14px; color: #9ca3af; line-height: 1.6;">
+        本頁面僅為個人經驗與教學分享，不構成任何投資建議。交易市場具有高度風險，請自行評估風險承受能力。使用推薦連結註冊不影響您的權益，亦無強制要求購買或操作。若因使用本頁內容進行交易所造成之任何損失，本站恕不負責。
+      </p>
+    </div>
 
-    <h3>深入講解交易理論</h3>
-    <ul>
-      <li><strong>SMC（Smart Money Concepts）</strong>：BOS、CHoCH、OB、FVG 等關鍵結構的定義與應用。</li>
-      <li><strong>諧波型態（Harmonic Patterns）</strong>：蝙蝠型、螃蟹型、鯊魚型精準比例與反轉機會。</li>
-      <li><strong>波浪理論（Elliott Wave Theory）</strong>：AB=CD 結構與三浪主升應用。</li>
-      <li><strong>形態學（Price Action Study）</strong>：三角收斂、W 頭、假突破、突破回踩與心態解讀。</li>
-    </ul>
-  </section>
-
-  <section id="login" style="display:none">
-    <h2>登入以新增交易紀錄</h2>
-    <input type="text" id="loginUser" placeholder="帳號">
-    <input type="password" id="loginPass" placeholder="密碼">
-    <button onclick="login()">登入</button>
-  </section>
-
-  <section id="records">
-    <h2>新增交易紀錄</h2>
-    <div id="tradeFormWrapper">
-      <form id="tradeForm">
-        <label>日期</label>
-        <input type="text" id="date" placeholder="例如：2025/04/27" required>
-        <label>交易品種</label>
-        <input type="text" id="pair" placeholder="例如：BTC/USDT" required>
-        <label>策略應用</label>
-        <input type="text" id="strategy" placeholder="例如：SMC 破結構回踩 OB 進場" required>
-        <label>心得</label>
-        <textarea id="notes" rows="3" placeholder="這次交易的心得或需要改進的地方..." required></textarea>
-        <button type="submit">新增交易紀錄</button>
+    <div id="record" class="section">
+      <h2>新增交易紀錄（登入後可見）</h2>
+      <form id="recordForm">
+        <input type="text" placeholder="交易品種" required>
+        <input type="text" placeholder="策略" required>
+        <textarea placeholder="心得..." required></textarea>
+        <button type="submit">送出</button>
       </form>
     </div>
-  </section>
 
-  <section id="viewrecords">
-    <h2>目前交易紀錄</h2>
-    <div id="recordsList"></div>
-  </section>
-</main>
+    <div id="records" class="section">
+      <h2>交易紀錄列表</h2>
+      <div id="recordList">尚無紀錄</div>
+    </div>
+
+    <div id="loginBox" class="section">
+      <h2>登入系統</h2>
+      <input type="text" id="user" placeholder="帳號">
+      <input type="password" id="pass" placeholder="密碼">
+      <button onclick="login()">登入</button>
+    </div>
+  </div>
 
 <script>
-  const form = document.getElementById('tradeForm');
-  const recordsDiv = document.getElementById('recordsList');
-  const recordsSection = document.getElementById('records');
-  const loginSection = document.getElementById('login');
-
-  let isLoggedIn = false;
+  let isLogin = false;
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  }
 
   function showSection(id) {
-    ['exchange', 'records', 'viewrecords', 'login'].forEach(sec => {
-      const el = document.getElementById(sec);
-      if (el) el.style.display = 'none';
-    });
-    const target = document.getElementById(id);
-    if (target) target.style.display = 'block';
+    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
   }
 
   function toggleLogin() {
-    if (!isLoggedIn) {
-      showSection('login');
-    } else {
-      showSection('records');
-    }
+    showSection('loginBox');
   }
 
   function login() {
-    const user = document.getElementById('loginUser').value;
-    const pass = document.getElementById('loginPass').value;
+    const user = document.getElementById('user').value;
+    const pass = document.getElementById('pass').value;
     if (user === 'admin' && pass === 'lin1123') {
-      isLoggedIn = true;
-      showSection('records');
+      isLogin = true;
+      document.getElementById('loginBox').classList.remove('active');
+      document.getElementById('recordNav').classList.remove('hidden');
+      document.getElementById('loginStatus').classList.remove('hidden');
     } else {
-      alert('登入失敗，請確認帳號密碼');
+      alert('登入失敗');
     }
   }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const date = document.getElementById('date').value;
-    const pair = document.getElementById('pair').value;
-    const strategy = document.getElementById('strategy').value;
-    const notes = document.getElementById('notes').value;
-    const record = { date, pair, strategy, notes };
-    const records = JSON.parse(localStorage.getItem('records') || '[]');
-    records.unshift(record);
-    localStorage.setItem('records', JSON.stringify(records));
-    renderRecords(records);
-    form.reset();
-  });
-
-  function loadRecords() {
-    const records = JSON.parse(localStorage.getItem('records') || '[]');
-    renderRecords(records);
-  }
-
-  function renderRecords(records) {
-    recordsDiv.innerHTML = '';
-    records.forEach(r => {
-      recordsDiv.innerHTML += `
-        <div class="trade-record">
-          <p><strong>日期：</strong> ${r.date}</p>
-          <p><strong>交易品種：</strong> ${r.pair}</p>
-          <p><strong>策略應用：</strong> ${r.strategy}</p>
-          <p><strong>心得：</strong> ${r.notes}</p>
-        </div>
-      `;
-    });
-  }
-
-  loadRecords();
-  showSection('exchange');
 </script>
-
 </body>
 </html>
