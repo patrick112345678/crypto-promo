@@ -268,12 +268,13 @@
     }
 
     const recordHTML = `
-      <div class="record-item">
-        <div><strong>${title}</strong> - ${strategy}</div>
-        <p>${notes}</p>
-        ${mediaHTML}
-      </div>
-    `;
+    <div class="record-item">
+      <div><strong>${title}</strong> - ${strategy}</div>
+      <p>${notes}</p>
+      ${mediaHTML}
+      <button onclick="this.parentElement.remove()">刪除</button>
+    </div>
+  `;
     recordList.innerHTML += recordHTML;
     form.reset();
   });
