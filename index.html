@@ -31,8 +31,11 @@
       background: none;
       border: none;
       color: #fff;
-      font-size: 18px;
+      font-size: 22px;
       margin-bottom: 20px;
+    }
+    .sidebar.collapsed .menu-toggle::after {
+      content: '≡';
     }
     .nav-link {
       color: #f3f4f6;
@@ -74,11 +77,18 @@
       padding: 8px;
       font-size: 14px;
     }
+    #loginBox input {
+      margin-right: 5px;
+      width: 160px;
+    }
+    #loginBox button {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="sidebar" id="sidebar">
-    <button class="menu-toggle" onclick="toggleMenu()">≡ 選單</button>
+    <button class="menu-toggle" onclick="toggleMenu()">≡</button>
     <button class="nav-link" onclick="showSection('exchange')">交易所推薦</button>
     <button class="nav-link hidden" id="recordNav" onclick="showSection('record')">新增交易紀錄</button>
     <button class="nav-link" onclick="showSection('records')">查看紀錄</button>
@@ -159,7 +169,13 @@
 <script>
   let isLogin = false;
   function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('collapsed');
+    const links = sidebar.querySelectorAll('.nav-link');
+    links.forEach(link => {
+      link.style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
+    });
+    document.getElementById('loginControl').style.display = sidebar.classList.contains('collapsed') ? 'none' : 'block';
   }
 
   function showSection(id) {
