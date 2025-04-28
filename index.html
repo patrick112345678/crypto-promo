@@ -66,76 +66,17 @@
     .sidebar.collapsed + .main {
       margin-left: 60px;
     }
-    .hidden { display: none; }
-    #loginControl {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-    }
-    .sidebar.collapsed #loginControl {
-      display: none;
-    }
-    #loginStatus {
-      margin-top: 5px;
-      font-size: 14px;
-      color: #22c55e;
-    }
     .section { display: none; }
-    .active { display: block; }
-    form input, form textarea {
-      display: block;
-      margin-bottom: 10px;
-      width: 100%;
-      padding: 8px;
-      font-size: 14px;
-    }
-    #loginBox input {
-      margin-bottom: 10px;
-      width: 160px;
-    }
-    #loginBox button {
-      margin-top: 10px;
-    }
-    .record-item {
-      background: #1e293b;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
-    .record-item img, .record-item video {
-      max-width: 100%;
-      margin-top: 5px;
-      display: block;
-    }
-    .record-item button {
-      margin-top: 10px;
-      background: #dc2626;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .register-links a {
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-decoration: none;
-      display: inline-block;
-      margin-bottom: 5px;
-    }
-     .about-box {
+    .section.active { display: block; }
+    .about-box {
       border: 1px solid #374151;
       background-color: #1e293b;
       padding: 20px;
       border-radius: 8px;
       margin-bottom: 20px;
     }
-    .bybit { background: #3b82f6; }
-    .binance { background: #3b82f6; }
-    .bitget { background: #3b82f6; }
+    .register-links a { color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; margin-bottom: 5px; }
+    .bybit, .binance, .bitget { background: #3b82f6; }
   </style>
 </head>
 <body>
@@ -146,8 +87,6 @@
       <button class="nav-link" onclick="showSection('smc')">SMC 介紹</button>
     </div>
   </div>
-  
-  
  <div class="main" id="main">
  <div id="smc" class="section">
       <h2>什麼是 SMC（Smart Money Concept）？</h2>
@@ -233,74 +172,15 @@
       <p style="font-size: 14px; color: #9ca3af;">本頁面僅為個人經驗與教學分享，不構成任何投資建議。交易市場具有高度風險，請自行評估風險承受能力。使用推薦連結註冊不影響您的權益，亦無強制要求購買或操作。若因使用本頁內容進行交易所造成之任何損失，本站恕不負責。</p>
 
     </div>
-
-    <div id="record" class="section">
-      <h2>新增交易紀錄（登入後可見）</h2>
-      <form id="recordForm">
-        <input type="text" placeholder="交易品種" required>
-        <input type="text" placeholder="策略" required>
-        <textarea placeholder="心得..." required></textarea>
-        <input type="file" accept="image/*,video/*" multiple>
-        <button type="submit">送出</button>
-      </form>
-    </div>
-
-    <div id="records" class="section">
-      <h2>交易紀錄列表</h2>
-      <div id="recordList">尚無紀錄</div>
-    </div>
-
-    <div id="loginBox" class="section">
-      <h2>登入系統</h2>
-      <input type="text" id="user" placeholder="帳號">
-      <input type="password" id="pass" placeholder="密碼">
-      <button onclick="login()">登入</button>
-    </div>
-  </div>
-
 <script>
   function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('collapsed');
+    document.getElementById('sidebar').classList.toggle('collapsed');
   }
-
   function showSection(id) {
     document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
   }
-
- 
-   document.getElementById('recordForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const recordList = document.getElementById('recordList');
-    const form = e.target;
-    const title = form.querySelector('input[placeholder="交易品種"]').value;
-    const strategy = form.querySelector('input[placeholder="策略"]').value;
-    const notes = form.querySelector('textarea').value;
-    const files = form.querySelector('input[type="file"]').files;
-
-    let mediaHTML = '';
-    for (let file of files) {
-      const url = URL.createObjectURL(file);
-      if (file.type.startsWith('image')) {
-        mediaHTML += `<img src="${url}">`;
-      } else if (file.type.startsWith('video')) {
-        mediaHTML += `<video controls src="${url}"></video>`;
-      }
-    }
-
-    const recordHTML = `
-    <div class="record-item">
-      <div><strong>${title}</strong> - ${strategy}</div>
-      <p>${notes}</p>
-      ${mediaHTML}
-      <button onclick="this.parentElement.remove()">刪除</button>
-    </div>
-  `;
-    recordList.innerHTML += recordHTML;
-    form.reset();
-  });
 </script>
 </body>
 </html>
