@@ -143,14 +143,7 @@
     <button class="menu-toggle" onclick="toggleMenu()">≡</button>
     <div id="navItems">
       <button class="nav-link" onclick="showSection('exchange')">交易所推薦</button>
-      <button class="nav-link hidden" id="recordNav" onclick="showSection('record')">新增交易紀錄</button>
-      <button class="nav-link" onclick="showSection('records')">查看紀錄</button>
       <button class="nav-link" onclick="showSection('smc')">SMC 介紹</button>
-    </div>
-    <div id="loginControl">
-      <button class="nav-link" id="loginBtn" onclick="toggleLogin()">登入</button>
-      <button class="nav-link hidden" id="logoutBtn" onclick="logout()">登出</button>
-      <div id="loginStatus" class="hidden">已登入 admin</div>
     </div>
   </div>
   
@@ -277,31 +270,7 @@
     if (section) section.classList.add('active');
   }
 
-  function toggleLogin() {
-    showSection('loginBox');
-  }
-
-  function login() {
-    const user = document.getElementById('user').value;
-    const pass = document.getElementById('pass').value;
-    if (user === 'admin' && pass === 'lin1123') {
-      document.getElementById('loginBox').classList.remove('active');
-      document.getElementById('recordNav').classList.remove('hidden');
-      document.getElementById('loginStatus').classList.remove('hidden');
-      document.getElementById('loginBtn').classList.add('hidden');
-      document.getElementById('logoutBtn').classList.remove('hidden');
-    } else {
-      alert('登入失敗');
-    }
-  }
-
-  function logout() {
-    document.getElementById('recordNav').classList.add('hidden');
-    document.getElementById('loginStatus').classList.add('hidden');
-    document.getElementById('logoutBtn').classList.add('hidden');
-    document.getElementById('loginBtn').classList.remove('hidden');
-    showSection('exchange');
-  }
+ 
    document.getElementById('recordForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const recordList = document.getElementById('recordList');
