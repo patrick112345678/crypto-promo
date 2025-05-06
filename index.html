@@ -111,6 +111,7 @@
     <div id="navItems">
       <button class="nav-link" onclick="showSection('exchange')">交易所推薦</button>
       <button class="nav-link" onclick="showSection('smc')">SMC 介紹</button>
+      <button class="nav-link" onclick="showSection('harmonic')">諧波型態介紹</button>
     </div>
   </div>
  <div class="main" id="main">
@@ -206,8 +207,32 @@
       <p><strong>交易重點：</strong>不要在流動性區直接追單，應等待價格掃過流動性後出現結構反轉（如 CHoCH）再介入。</p>
       <img src="https://raw.githubusercontent.com/patrick112345678/crypto-promo/main/流動性獵取.png" style="max-width: 100%; border-radius: 8px;">
   <p>透過這些結構概念，SMC 幫助交易者判讀市場脈絡，找出更具勝率的進出場時機。</p>
-
     </div>
+   <div id="harmonic" class="section" style="display: none;">
+  <h2>📐 諧波型態 Harmonic Patterns</h2>
+  <p>
+    諧波型態是一種結合幾何與費波那契比例的技術分析方式，用以預測潛在的價格反轉區（PRZ, Potential Reversal Zone）。
+  </p>
+
+  <h3>📊 常見型態</h3>
+  <ul>
+    <li><strong>Gartley（加特利型）</strong>：B 回撤 A 的 61.8%，D 為趨勢的 78.6% 回撤。</li>
+    <li><strong>Bat（蝙蝠型）</strong>：D 點回撤 88.6%，B 點回撤約 50%。</li>
+    <li><strong>Butterfly（蝴蝶型）</strong>：D 點延伸 X-A 的 127%～161.8%。</li>
+    <li><strong>Crab（螃蟹型）</strong>：D 點可延伸至 161.8%。</li>
+    <li><strong>Shark（鯊魚型）</strong>：使用比例如 0.886 和 1.13。</li>
+  </ul>
+
+  <h3>🔍 實戰應用建議</h3>
+  <ul>
+    <li>觀察 <strong>PRZ（潛在反轉區）</strong> 是否與關鍵支撐/壓力或 CHoCH 區重疊。</li>
+    <li>可結合 OB、FVG、流動性概念進行雙重確認。</li>
+    <li>進場前觀察 K 線反應，並合理設置止損在 D 點外。</li>
+  </ul>
+
+  <img src="https://raw.githubusercontent.com/patrick112345678/crypto-promo/main/harmonic_example.png" style="max-width: 100%; border-radius: 8px;">
+  <p style="font-size: 15px; color: #9ca3af;">圖：Gartley 與 Butterfly 型態示意圖</p>
+</div>
 <script>
   function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('collapsed');
